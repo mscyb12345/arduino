@@ -1,0 +1,26 @@
+void setup() {
+  pinMode(11,OUTPUT);
+  pinMode(12,OUTPUT);
+  pinMode(13,OUTPUT);
+}
+
+void loop() {
+  RGB(255,0,0);
+  delay(500);
+  RGB(0,255,0);
+  delay(500);
+  RGB(0,0,255);
+  delay(500);
+  RGB(51,255,255);
+  delay(500);
+  RGB(102,102,255);
+  delay(500);
+  RGB(255,255,255);
+  delay(500);
+}
+void RGB(int R,int G,int B)
+{
+  analogWrite(11,R);
+  analogWrite(12,G);
+  analogWrite(13,B);
+}
