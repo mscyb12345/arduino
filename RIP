@@ -1,0 +1,17 @@
+bool a=false;
+void setup() {
+  Serial.begin(9600);
+  pinMode(7,INPUT);
+}
+
+void loop() {
+  if(digitalRead(7,HIGH)&&a==false){
+  Serial.println("We found a man!");
+  a=true;
+  }
+  else {
+    Serial.println("\n");
+    a=false;
+  }
+  delay(10);
+}
