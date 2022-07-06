@@ -1,0 +1,49 @@
+bool a=false;
+void setup() {
+  Serial.begin(9600);
+  pinMode(8,INPUT_PULLUP);
+  pinMode(2,OUTPUT);
+  pinMode(9,OUTPUT);
+  pinMode(10,OUTPUT);
+  pinMode(11,OUTPUT);
+}
+unsigned long curr_millis=0;
+unsigned long prev_millis=0,prev_millis_2=0,prev_millis_3=0;
+  int i=0;
+  unsigned int R=0,G=0,B=0;
+  int Switch=0;
+void loop() {
+  curr_millis=millis();
+  if(digitalRead(8)==LOW&&a==false){
+    a=true;
+    Switch++;
+    if(Switch>=3)Switch=0;
+  }
+  else if(digitalRead(8)==HIGH&&a==true){
+    a=false;
+  }
+  if(curr_millis-prev_millis>=5){
+    prev_millis=curr_millis;
+    switch(Switch){
+      case 0:
+      if(++R>255)R=0;
+      analogWrite(9,R);
+      break;
+      case 1:
+      if(++G>255)G=0;
+      analogWrite(10,G);
+      break;
+      default:
+      if(++B>255)B=0;
+      analogWrite(11,B);
+      break;
+    }
+  }
+  if(curr_millis-prev_millis_2>=3000){
+    prev_millis_2=curr_millis;
+    i=!i;
+    if(i==1)
+    digitalWrite(2,HIGH);
+    else digitalWrite(2,LOW);
+  }
+}
