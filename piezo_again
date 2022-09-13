@@ -1,0 +1,37 @@
+#define piezo 6
+#define btn   2
+
+void setup() {
+  pinMode(piezo, OUTPUT);
+  pinMode(btn, INPUT);
+  digitalWrite(piezo, LOW);
+}
+
+void loop() {
+  //tone 함수와 noTone 함수를 이용해 도~높은 도까지 출력하는 코드 작성
+  //시간남으면 버튼이 눌릴 때마다 음 변화를 주는 코드 작성
+  tone(piezo,261);
+  delay(500);
+  noTone(piezo);
+  tone(piezo,293);
+  delay(500);
+  noTone(piezo);
+    tone(piezo,329);
+  delay(500);
+  noTone(piezo);
+    tone(piezo,349);
+  delay(500);
+  noTone(piezo);
+    tone(piezo,391);
+  delay(500);
+  noTone(piezo);
+  tone(piezo,440);
+  delay(500);
+  noTone(piezo);
+    tone(piezo,493);
+  delay(500);
+  noTone(piezo);
+    tone(piezo,523);
+  delay(500);
+  noTone(piezo);
+}
