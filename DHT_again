@@ -1,0 +1,23 @@
+#include <DHT.h>
+
+#define DHTPIN 4
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  //Serial 모니터에 화씨온도, 섭씨온도, 습도를 출력하는 코드 작성
+  //시간남으면 화씨온도와 섭씨온도를 기반으로 각각 불쾌지수를 계산하여 출력하는 코드 작성
+  Serial.println(dht.readTemperature(true));
+  Serial.println(dht.readTemperature(false));
+  Serial.println(dht.readHumidity());
+  Serial.println(dht.computeHeatIndex(dht.readTemperature(true),dht.readHumidity(),true));
+   Serial.println(dht.computeHeatIndex(dht.readTemperature(false),dht.readHumidity(),false));
+   Serial.println();
+  
+  delay(3000);
+}
