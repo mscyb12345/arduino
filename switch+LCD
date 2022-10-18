@@ -1,0 +1,28 @@
+#include<Wire.h>
+#include<LiquidCrystal_I2C.h>
+#define x A0
+#define y A1
+#define sw 2
+LiquidCrystal_I2C LCD(0x27,16,2);
+void setup() {
+  pinMode(x,INPUT);
+  pinMode(y,INPUT);
+  pinMode(sw,INPUT_PULLUP);
+  pinMode(A4,OUTPUT);
+  pinMode(A5,OUTPUT);
+  LCD.init();
+  LCD.backlight();
+  Serial.begin(9600);
+}
+
+void loop() {
+  LCD.home();
+  LCD.clear();
+  LCD.print(analogRead(x));
+  LCD.print(" ");
+  LCD.print(analogRead(y));
+  LCD.setCursor(0,1);
+  LCD.print(digitalRead(sw));
+  delay(28);
+  
+}
