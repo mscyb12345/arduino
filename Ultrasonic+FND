@@ -1,0 +1,36 @@
+#define Trig 9
+#define Echo 10
+int FND_Number_C[10][8] = {
+  {1, 1, 1, 1, 1, 1, 0, 0}, //0
+  {0, 1, 1, 0, 0, 0, 0, 0}, //1
+  {1, 1, 0, 1, 1, 0, 1, 0}, //2
+  {1, 1, 1, 1, 0, 0, 1, 0}, //3
+  {0, 1, 1, 0, 0, 1, 1, 0}, //4
+  {1, 0, 1, 1, 0, 1, 1, 0}, //5
+  {1, 0, 1, 1, 1, 1, 1, 0}, //6
+  {1, 1, 1, 0, 0, 1, 0, 0}, //7
+  {1, 1, 1, 1, 1, 1, 1, 0}, //8
+  {1, 1, 1, 1, 0, 1, 1, 0}, //9
+  };
+void setup() {
+  pinMode(Trig,OUTPUT);
+  pinMode(Echo,INPUT);
+  for(int a=2;a<10;a++){
+    pinMode(a,OUTPUT);
+  }
+}
+
+void loop() {
+  digitalWrite(Trig,LOW);
+  digitalWrite(Echo,LOW);
+  delayMicroseconds(2);
+  digitalWrite(Trig,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(Trig,LOW);
+  unsigned long duration=pulseIn(Echo,HIGH);
+  float distance =duration * 0.017;
+  for(int i=0;i<8;i++){
+    digitalWrite(i+2,FND_Number_C[(int)distance%100/10-1][i]);
+  }
+  delay(500);
+}
