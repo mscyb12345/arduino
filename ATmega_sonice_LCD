@@ -1,0 +1,117 @@
+#define F_CPU 16000000UL
+#include <avr/io.h>
+#include <util/delay.h>
+
+//LCD의 명령어를 입력하는 함수
+void COMMAND(unsigned char byte){
+	_delay_ms(2);
+	PORTE = (byte & 0xF0);
+	PORTE &= 0xFE;
+	PORTE &= 0xFD;
+	_delay_us(1);
+	PORTE |= 0x04;
+	_delay_us(1);
+	PORTE &= 0xFB;
+	
+	PORTE = ((byte<<4) & 0xF0);
+	PORTE &= 0xFE;
+	PORTE &= 0xFD;
+	_delay_us(1);
+	PORTE |= 0x04;
+	_delay_us(1);
+	PORTE &= 0xFB;
+}
+
+//LCD에 데이터를 출력하는 함수
+void DATA(unsigned char byte){
+	_delay_ms(2);
+	PORTE = (byte & 0xF0);
+	PORTE |= 0x01;
+	PORTE &= 0xFD;
+	_delay_us(1);
+	PORTE |= 0x04;
+	_delay_us(1);
+	PORTE &= 0xFB;
+	
+	PORTE = ((byte<<4) & 0xF0);
+	PORTE |= 0x01;
+	PORTE &= 0xFD;
+	_delay_us(1);
+	PORTE |= 0x04;
+	_delay_us(1);
+	PORTE &= 0xFB;
+}
+
+//LCD를 시작, 초기화하는 함수
+void LCD_INIT(){
+	_delay_ms(30);
+	COMMAND(0x20);
+	_delay_ms(39);
+	COMMAND(0x20);
+	_delay_ms(1.53);
+	COMMAND(0x20);
+	
+	COMMAND(0x28);
+	COMMAND(0x06);
+	COMMAND(0x01);
+	COMMAND(0x0C);
+}
+
+//LCD의 문자가 출력될 위치를 정하는 함수
+void MOVE(int x, int y){
+	if(y == 1) COMMAND(0x80 + x);
+	else COMMAND(0xC0 + x);
+}
+
+//문자열을 출력하는 함수
+void STRING(const char CHAR[], unsigned int len){
+	for(int i=0; i<len; i++){
+		DATA(CHAR[i]);
+	}
+}
+
+#define Trig 1
+#define Echo 0
+#define sTrig (0x01<<Trig)
+#define sEcho (0x01<<Echo)
+
+unsigned int distance =0;
+char data[3];
+int main(void)
+{
+	DDRA = ((DDRA|sTrig)&~sEcho);
+	PORTA =0x00;
+	DDRE = 0xFF;
+	PORTE=0x00;
+	LCD_INIT();
+	MOVE(0,1);
+	STRING("Distance : ",10);
+    /* Replace with your application code */
+    while (1) 
+    {
+		TCCR1B=0x02;
+		PORTA&= ~sTrig;
+		_delay_us(10);
+		
+		PORTA |= sTrig;
+		_delay_us(10);
+		
+		PORTA &= ~sTrig;
+		_delay_us(100);
+		
+		while(!(PINA&sEcho));
+		TCNT1 = 0x0000;
+		while(PINA&sEcho);
+		TCCR1B=0x08;
+		distance = (unsigned int)((TCNT1/58)*10);
+		
+		data[0]=(distance/100%10)+'0';
+		data[1]=(distance/10%10)+'0';
+		data[2]=(distance%10)+'0';
+		MOVE(0,2);
+		STRING(data,3);
+		STRING("mm",2);
+		_delay_ms(1000);
+    }
+	return 0;
+}
