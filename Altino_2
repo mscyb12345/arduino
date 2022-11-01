@@ -1,0 +1,62 @@
+#include<Altino.h>
+Altino sensor;
+void setup() {
+  // put your setup code here, to run once:
+  Open();
+}
+int oldtime=0;
+void loop() {
+  while(1){
+    if(sensor.IR[6]>100)break;
+  }
+  oldtime=millis();
+  while(1){
+    auto_test(7,350,-400);
+    if(sensor.CDS<100&&(millis()-oldtime)>3000)break;
+  }
+  go(-350,-350);delay(200);
+  go(0,0);
+  Led(0x0003);delay(500);
+  Led(0xf000);delay(500);
+  Led(0x00a0);delay(500);
+  Led(0x0050);delay(500);
+  Led(0x0000);
+  while(1){
+    auto_test(7,350,-400);
+    if(sensor.IR[1]>2 && sensor.IR[2]>2 && sensor.IR[3]>2)break;
+  }
+  go(-350,-350);delay(200);
+  go(0,0);
+}
+void auto_test(int th, int sp, int bsp)
+{
+  if(sensor.IR[1]>th && sensor.IR[2]>th && sensor.IR[3]>th){
+    if(sensor.IR[4]>sensor.IR[5]){
+      Go(bsp,bsp);Steering(127);
+    }
+    else{
+      Go(bsp,bsp);Steering(-127);
+    }
+  }
+  else if(sensor.IR[1]>100 && sensor.IR[2]>th){
+    Go(bsp,bsp);Steering(-127);
+  }
+  else if(sensor.IR[1]>th && sensor.IR[2]>th){
+    Go(sp,sp);Steering(127);
+  }
+  else if(sensor.IR[2]>th && sensor.IR[3]>100){
+    Go(bsp,bsp);Steering(127);
+  }
+  else if(sensor.IR[2]>th && sensor.IR[3]>th){
+    Go(sp,sp);Steering(-127);
+  }
+  else if(sensor.IR[1]>th){
+    Go(sp,sp);Steering(64);
+  }
+  else if(sensor.IR[3]>th){
+    Go(sp,sp);Steering(-64);
+  }
+  else{
+    Go(sp,sp);Steering(0);
+  }
+}
