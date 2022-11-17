@@ -1,0 +1,56 @@
+#define F_CPU 16000000UL
+#include <avr/io.h>
+#include <util/delay.h>
+#include <stdio.h>
+#define sdi(n) (1<<n)
+
+uint8_t color_array[7][3]={
+	{64,0,0},
+	{0,64,0},
+	{0,0,64},
+	{
+		64,64,0
+	},
+	{
+		64,0,64
+	},
+	{
+		0,64,64
+	},
+	{
+		64,64,64
+	}
+};
+
+void initTimer();
+void setColor(uint8_t R,uint8_t G,uint8_t B);
+
+int main(void)
+{
+	DDRB= sdi(5) | sdi(6)|sdi(7);
+	initTimer();
+    /* Replace with your application code */
+    while (1) 
+    {
+		for(int i=0;i<7;i++){
+			setColor(color_array[i][0],color_array[i][1],color_array[i][2]);
+			_delay_ms(100);
+		}
+    }
+	return 0;
+}
+
+void initTimer(){
+	TCCR1A |= sdi(WGM10);
+	TCCR1B |=sdi(WGM12);
+	
+	TCCR1A |=sdi(COM1A1)|sdi(COM1B1)|sdi(COM1C1);
+	
+	TCCR1B|=sdi(CS11);
+	setColor(0,0,0);
+}
+void setColor(uint8_t R,uint8_t G,uint8_t B){
+	OCR1A=R&255;
+	OCR1B=G&255;
+	OCR1C=B&255;
+}
