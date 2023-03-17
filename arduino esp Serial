@@ -1,0 +1,35 @@
+//아두이노
+#include<SoftwareSerial.h>
+SoftwareSerial soft(2,3);//RX핀 TX핀
+void setup() {
+  Serial.begin(115200);
+  soft.begin(115200);
+}
+
+void loop() {
+  if(Serial.available()){
+    int value=Serial.read();
+    soft.write(value);
+  }
+  if(soft.available()){
+    int value=soft.read();
+    Serial.write(value);
+  }
+}
+
+//esp32
+void setup() {
+  Serial.begin(115200);
+  Serial2.begin(115200);
+}
+
+void loop() {
+  if(Serial.available()){
+    int value=Serial.read();
+    Serial2.write(value);
+  }
+  if(Serial2.available()){
+    int value=Serial2.read();
+    Serial.write(value);
+  }
+}
