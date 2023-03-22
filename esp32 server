@@ -1,0 +1,35 @@
+#include<WiFi.h>
+#include<ESPAsyncWebServer.h>
+#include "html.h"
+AsyncWebServer server(80);//웹서버 정의
+
+const char* ssid ="Embedded2";
+const char* password="dlaqpelem2tlf12@";
+
+//void index_function(AsyncWebServerRequest * request){
+   
+//}
+void setup() {
+  Serial.begin(115200);//시리얼 모니터 시작
+
+  //WiFi 연결
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid,password);
+  while(WiFi.status()!=WL_CONNECTED){
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  server.on("/",HTTP_GET,index_function);//서버등록
+  server.begin();//서버시작
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
