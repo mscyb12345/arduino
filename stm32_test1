@@ -1,0 +1,39 @@
+  int flag=0;
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+	  if(!(HAL_GPIO_ReadPin(GPIOC,bt1_Pin))||flag==1){
+	  		  flag=1;
+	            HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin|led3_Pin, GPIO_PIN_RESET);
+	            HAL_Delay(500);
+	            HAL_GPIO_WritePin(GPIOE, led1_Pin, GPIO_PIN_SET);
+	            HAL_Delay(500);
+	  	  }
+	  	  if(!(HAL_GPIO_ReadPin(GPIOC,bt2_Pin))||flag==2){
+	  		 flag=2;
+	  		 HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin|led3_Pin, GPIO_PIN_RESET);
+	           HAL_Delay(500);
+	           HAL_GPIO_WritePin(GPIOE, led2_Pin, GPIO_PIN_SET);
+	           HAL_Delay(500);
+	  	  }
+	  	  if(!(HAL_GPIO_ReadPin(GPIOC,bt3_Pin))||flag==3){
+	  		  flag=3;
+	  		  HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin|led3_Pin, GPIO_PIN_RESET);
+	  		  HAL_Delay(500);
+	  		  HAL_GPIO_WritePin(GPIOE, led3_Pin, GPIO_PIN_SET);
+	  		  HAL_Delay(500);
+	  	  }
+	  	  if(!(HAL_GPIO_ReadPin(GPIOC,bt4_Pin))||flag==4){
+	  		  flag=4;
+	  		  HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin|led3_Pin, GPIO_PIN_RESET);
+	  		  HAL_Delay(500);
+	  		  HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin|led3_Pin, GPIO_PIN_SET);
+	  		  HAL_Delay(500);
+	  	  }
+	  	  if(!(HAL_GPIO_ReadPin(GPIOC,bt5_Pin))||flag==0){
+	  		  flag=0;
+	  		  HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin|led3_Pin, GPIO_PIN_RESET);
+	  	  }
+  }
