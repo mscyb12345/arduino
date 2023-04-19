@@ -1,0 +1,34 @@
+while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+	  if(!(HAL_GPIO_ReadPin(GPIOC,bt1_Pin))){
+		  HAL_GPIO_WritePin(GPIOE, led2_Pin|led3_Pin, GPIO_PIN_RESET);
+	      HAL_GPIO_WritePin(GPIOE, led1_Pin, GPIO_PIN_SET);
+	      printf("SW1 ON\r\n");
+	      HAL_Delay(500);
+	  	  }
+	  	  if(!(HAL_GPIO_ReadPin(GPIOC,bt2_Pin))){
+	  		 HAL_GPIO_WritePin(GPIOE, led1_Pin|led3_Pin, GPIO_PIN_RESET);
+	           HAL_GPIO_WritePin(GPIOE, led2_Pin, GPIO_PIN_SET);
+	           printf("SW2 ON\r\n");
+	           HAL_Delay(500);
+	  	  }
+	  	  if(!(HAL_GPIO_ReadPin(GPIOC,bt3_Pin))){
+	  		  HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin, GPIO_PIN_RESET);
+	  		  HAL_GPIO_WritePin(GPIOE, led3_Pin, GPIO_PIN_SET);
+	  		 printf("SW3 ON\r\n");
+	  		HAL_Delay(500);
+	  	  }
+	  	  if(!(HAL_GPIO_ReadPin(GPIOC,bt4_Pin))){
+	  		  HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin|led3_Pin, GPIO_PIN_SET);
+	  		 printf("SW4 ON\r\n");
+	  		 HAL_Delay(500);
+	  	  }
+	  	  if(!(HAL_GPIO_ReadPin(GPIOC,bt5_Pin))){
+	  		  HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin|led3_Pin, GPIO_PIN_RESET);
+	  		 printf("SW5 ON\r\n");
+	  		 HAL_Delay(500);
+	  	  }
+  }
