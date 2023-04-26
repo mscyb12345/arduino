@@ -1,20 +1,31 @@
+setvbuf(stdout, NULL, _IONBF, 0);
+  HAL_UART_Receive_IT(&huart1, Rx_Buffer, 1);
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
 	  if(USART1_rx_end){
-	  if(strcmp((const char*)Rx_Buffer,"LED2 ON")==0||strcmp((const char*)Rx_Buffer,"LED2 ON ON")==0||strcmp((const char*)Rx_Buffer,"LED2 ON OFF")==0||strcmp((const char*)Rx_Buffer,"LED2 ON ONF")==0){
+	  if(strcmp((const char*)Rx_Buffer,"LED2 ON")==0){
 		  HAL_GPIO_WritePin(GPIOE, led2_Pin|led3_Pin, GPIO_PIN_RESET);
 	      HAL_GPIO_WritePin(GPIOE, led1_Pin, GPIO_PIN_SET);
 	      printf("ACK,LED2 ON\r\n");
 	  	  }
-	  else if(strcmp((const char*)Rx_Buffer,"LED3 ON")==0||strcmp((const char*)Rx_Buffer,"LED3 ON ON")==0||strcmp((const char*)Rx_Buffer,"LED3 ON OFF")==0||strcmp((const char*)Rx_Buffer,"LED3 ON ONF")==0){
+	  else if(strcmp((const char*)Rx_Buffer,"LED3 ON")==0){
 	  		 HAL_GPIO_WritePin(GPIOE, led1_Pin|led3_Pin, GPIO_PIN_RESET);
 	           HAL_GPIO_WritePin(GPIOE, led2_Pin, GPIO_PIN_SET);
 	           printf("ACK,LED3 ON\r\n");
 	  	  }
-	  else if(strcmp((const char*)Rx_Buffer,"LED4 ON")==0||strcmp((const char*)Rx_Buffer,"LED4 ON ON")==0||strcmp((const char*)Rx_Buffer,"LED4 ON OFF")==0||strcmp((const char*)Rx_Buffer,"LED4 ON ONF")==0){
+	  else if(strcmp((const char*)Rx_Buffer,"LED4 ON")==0){
 	  		  HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin, GPIO_PIN_RESET);
 	  		  HAL_GPIO_WritePin(GPIOE, led3_Pin, GPIO_PIN_SET);
 	  		 printf("ACK,LED4 ON\r\n");
 	  	  }
-	  else if(strcmp((const char*)Rx_Buffer,"ALL LED ON")==0||strcmp((const char*)Rx_Buffer,"ALL LED ONF")==0){
+	  else if(strcmp((const char*)Rx_Buffer,"ALL LED ON")==0){
 	  		  HAL_GPIO_WritePin(GPIOE, led1_Pin|led2_Pin|led3_Pin, GPIO_PIN_SET);
 	  		 printf("ACK,ALL ON\r\n");
 	  	  }
@@ -24,4 +35,6 @@
 	  	  }
 	  	  USART1_len=0;
           USART1_rx_end=0;
+          for(int i=0;i<20;i++)Rx_Buffer[i]=0;
 	  }
+  }
