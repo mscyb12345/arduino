@@ -38,3 +38,40 @@ setvbuf(stdout, NULL, _IONBF, 0);
           for(int i=0;i<20;i++)Rx_Buffer[i]=0;
 	  }
   }
+
+
+
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  static uint8_t usart1_chk=0;
+  if(huart -> Instance == USART1)
+  {
+      USART1_rx_end=0;
+      switch(usart1_chk)
+      {
+          case 0:
+            if(Rx_Data[0]==0x02){
+                //Rx_Buffer[USART1_len]=Rx_Data[0];
+                //USART1_len++;
+                usart1_chk=1;
+            }
+            else usart1_chk=0;
+            break;
+          case 1:
+            if(Rx_Data[0]==0x03){
+              USART1_rx_end=1;
+              usart1_chk=0;
+            }
+            else{
+            Rx_Buffer[USART1_len]=Rx_Data[0];
+            USART1_len++;
+            }
+            break;
+          default :
+            usart1_chk=0;
+            break;
+      }
+      HAL_UART_Receive_IT(&huart1, Rx_Data, 1);
+  }
+}
